@@ -129,8 +129,10 @@ countdown() {
   done
 
   # center "Time's up!" message
+  echo -e "\r\033[K"
+  center_text "time's up! take a break."
   echo -e "\n"
-  center_text "Time's up!"
+  tput bel  # this will trigger the terminal bell sound
 }
 
 # pomodoro mode
@@ -142,14 +144,14 @@ break_duration=$((5 * 60))  # default 5 minutes
 # check for pomodoro flag
 if [ "$1" == "-pomo" ]; then
   pomodoro_mode=true
-  echo "Pomodoro mode activated!"
-  echo -n "How many pomodoros would you like to complete? "
+  echo "pomodoro mode activated!"
+  echo -n "how many pomodoros would you like to complete? "
   read pomodoro_count
 fi
 
 # normal mode (input time)
 if [ "$pomodoro_mode" = false ]; then
-  echo -n "Enter countdown time in minutes: "
+  echo -n "enter countdown time in minutes: "
   read minutes
   countdown_time=$((minutes * 60))
 else
