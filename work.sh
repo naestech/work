@@ -154,9 +154,19 @@ if [ "$pomodoro_mode" = false ]; then
   echo -n "enter countdown time in minutes: "
   read minutes
   countdown_time=$((minutes * 60))
+  display_centered $countdown_time
 else
-  countdown_time=$work_duration
-fi
+  # pomodoro loop
+  for ((i=1; i<=pomodoro_count; i++)); do
+    echo "starting pomodoro session $i of $pomodoro_count..."
+    display_centered $work_duration
 
-# run the timer in the current terminal
-display_centered $countdown_time
+    if [ $i -lt $pomodoro_count ]; then
+      echo "time for a break!"
+      display_centered $break_duration
+      echo -e "\a"  # alert sound after break
+    else
+      echo "all pomodoros complete. great job!"
+    fi
+  done
+fi
